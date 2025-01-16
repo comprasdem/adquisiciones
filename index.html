@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado de Conformidad</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<style> 
+    .hidden-print { 
+        display: none; 
+    } 
+@media print { 
+    .no-print { 
+        display: none; 
+        } 
+    } 
+</style>
+<script >
+    function numeroAPalabras(num) { 
+        const unidades = ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"]; 
+        const decenas = ["", "", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"]; 
+        const especiales = ["diez", "once", "doce", "trece", "catorce", "quince", "dieciséis", "diecisiete", "dieciocho", "diecinueve"]; 
+        const cientos = ["", "ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"]; 
+        function convertirMenorMil(n) { 
+            if (n < 10) return unidades[n]; 
+            if (n < 20) return especiales[n - 10]; 
+            if (n < 100) return decenas[Math.floor(n / 10)] + (n % 10 ? " y " + unidades[n % 10] : ""); 
+            if (n < 1000) { 
+                if (n == 100) return "cien"; 
+                return cientos[Math.floor(n / 100)] + (n % 100 ? " " + convertirMenorMil(n % 100) : ""); 
+            } return ""; 
+        } 
+        function convertirMayorMil(n) { 
+            if (n < 1000) return convertirMenorMil(n); 
+            if (n < 1000000) { 
+                return convertirMenorMil(Math.floor(n / 1000)) + " mil" + (n % 1000 ? " " + convertirMenorMil(n % 1000) : ""); 
+            } 
+            if (n < 1000000000) { 
+                return convertirMenorMil(Math.floor(n / 1000000)) + " millon" + (Math.floor(n / 1000000) > 1 ? "es" : "") + (n % 1000000 ? " " + convertirMayorMil(n % 1000000) : ""); 
+            } return ""; 
+        } return convertirMayorMil(num) + " pesos"; 
+    } /*function actualizarTexto() { 
+        const numero = document.getElementById("numero").value; 
+        const palabras =numeroAPalabras(parseInt(numero)); 
+        document.getElementById("texto").value = palabras; 
+    }*/
+    function formatearMoneda(num) { 
+        return new Intl.NumberFormat('es-CL', { 
+            style: 'currency', currency: 'CLP' 
+        }).format(num); 
+    }
+
+    function actualizarTexto() { 
+        const numero = document.getElementById("numero").value; 
+        const palabras = numeroAPalabras(parseInt(numero)); 
+        const formatoMoneda = formatearMoneda(numero); 
+        document.getElementById("texto").value = palabras; 
+        document.getElementById("numero").innerText = formatoMoneda; 
+    }
+</script>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Generar Certificado de Conformidad</h1>
+        <form id="certForm">
+           <div class="row mb-2">
+            <div class="col">
+                    <label for="cc">Centro de Costo</label>
+                    <select id="cc" onchange="actualizarDirector()" required>
+                        <option selected></option>
+                        <option value="Escuela Municipal Aillinco">Aillinco</option>
+                        <option value="Escuela Municipal Chacaico">Chacaico</option>
+                        <option value="Escuela Municipal El Capricho">El Capricho</option>
+                        <option value="Escuela Especial Dame La Mano">Especial Dame La Mano</option>
+                        <option value="Escuela Municipal Fortin Ñielol">Fortin Ñielol</option>
+                        <option value="Escuela Municipal Gabriela Mistral">Gabriela Mistral</option>
+                        <option value="Escuela Municipal Huampomallin">Huampomallin</option>
+                        <option value="Jardín Junji Amulén">Jardín Junji Amulén</option>
+                        <option value="Jardín Junji Antuliwén">Jardín Junji Antuliwén</option>
+                        <option value="Jardín Junji Rayito de Sol">Jardín Junji Rayito de Sol</option>
+                        <option value="Escuela Municipal La Piedra">La Piedra</option>
+                        <option value="Liceo Gregorio Urrutia">Liceo Gregorio Urrutia</option>
+                        <option value="Escuela Municipal Llufquentúe">Llufquentúe</option>
+                        <option value="Escuela Municipal Mañiuco">Mañiuco</option>
+                        <option value="Escuela Municipal Pangueco">Pangueco</option>
+                        <option value="Escuela Municipal Pelantaro">Pelantaro</option>
+                        <option value="Escuela Municipal Quetre">Quetre</option>
+                        <option value="Escuela Municipal Quinahue">Quinahue</option>
+                        <option value="Escuela Municipal Rio Quillem">Rio Quillem</option>
+                        <option value="Escuela Municipal Rucatraro">Rucatraro</option>
+                        <option value="Escuela Municipal Santa Margarita">Santa Margarita</option>
+                        <option value="Escuela Municipal Trabunquillem">Trabunquillem</option>
+                        <option value="Escuela Municipal Trif-trifco">Trif-trifco</option>
+
+                    </select>
+              </div>
+            <div class="col">
+              <label for="director">Nombre del Director:</label>
+              <input type="text" id="director" name="director" required>
+            </div>
+           </div>
+           <div class="row mb-2">
+                <div class="col">
+                    <label for="titulo">Título:</label>
+                    <select name="titulo" id="titulo" required>
+                                <option selected></option>
+                                <option value="Profesor">Profesor</option>
+                                <option value="Profesora">Profesora</option>
+                                <option value="Profesor de Estado">Profesor de Estado</option>
+                                <option value="Profesora de Estado">Profesora de Estado</option>
+                                <option value="Educadora de Párvulos">Educadora de Párvulos</option>
+                            </select>
+                </div>
+                <div class="col">
+                        <label for="cargo">Cargo:</label>
+                            <select name="cargo" id="cargo" required>
+                                <option selected></option>
+                                <option value="Director">Director</option>
+                                <option value="Directora">Directora</option>
+                                <option value="Encargado">Encargado</option>
+                                <option value="Encargada">Encargada</option>
+                            </select>
+                </div>
+
+                <div class="col">
+                    <label for="tipo">Tipo</label>
+                        <select name="tipo" id="tipo" required>
+                                <option selected></option>
+                                <option value="productos">Productos</option>
+                                <option value="servicios">Servicios</option>
+                        </select>
+                </div>
+            </div>
+            <div class="row mb-2">
+                
+                <div class="col">
+                    <label for="oc">N° Orden de Compra:</label>
+                    <input type="text" id="oc" name="oc" required>
+                </div>
+                <div class="col">
+                    <label for="fechaOC">Fecha de O/C:</label>
+                    <input type="text" id="fechaOC" name="fechaOC" required>
+                </div>
+               <div class="col">
+                    <label for="factura">N° Factura(s):</label>
+                    <input type="text" id="factura" name="factura" required>
+                </div>
+                 <div class="col-3">
+                    <label for="fechaFact">Fecha de Factura:</label>
+                    <input type="text" id="fechaFact" name="fechaFact" required>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col">
+                    <label for="detalle">Detalle de productos o servicios:</label>
+                    <textarea id="detalle" name="detalle" rows="3" required></textarea>
+                </div>
+            </div>
+            <div class="row mb-2">            
+                <div class="col">
+                    <label for="proveedor">Proveedor:</label>
+                    <input type="text" id="proveedor" name="proveedor" required>
+                </div>
+                <div class="col-3">
+                    <label for="rut">R.U.T.:</label>
+                    <input type="text" id="rut" name="rut" required>
+                </div>
+                <div class="col-3">
+                    <label for="numero">Monto: (sin puntos)</label>
+                    <input type="number" id="numero" name="monto" oninput="actualizarTexto()" required>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col"> 
+                    <label for="texto">Monto en palabras: (Verifique y corrija si es necesario)</label>
+                    <input type="text" id="texto" name="montopalabras">
+                </div>
+                <div class="col-3">
+                    <label for="fechaEmision">Fecha de Emisión:</label>
+                    <input type="text" id="fechaEmision" name="fechaEmision" oninput="formatearFecha()" required>
+                </div>
+            </div>
+            <button type="button" onclick="generarCertificado()">Generar Certificado</button>
+        </form>
+    </div>
+
+    <div id="certificado" class="certificado-container" style="display: none;">
+        <h6 id="certCC" class="text-uppercase pequeño"></h6>
+        <h6 class="pequeño">COMUNA DE GALVARINO</h6><br> 
+        <h2>Certificado de Conformidad</h2><br>
+        <p class="sangria"><span id="certDirector" > </span>, <span id="certTitulo"> </span> y <span id="certCargo"></span> de <span id="certCC2"> </span> de la comuna de Galvarino, a través del presente documento viene en certificar la recepción conforme de los siguientes <span id="certTipo"></span> de acuerdo a Orden de Compra N° <span id="certOC"></span> de fecha <span id="certFechaOC"></span>.</p>
+        <hr class="dotted">
+        <strong>DETALLE DE PRODUCTOS Y/O SERVICIOS</strong>
+        <hr class="dotted">
+        <span id="certDetalle"></span>
+        <hr class="dotted">
+        <br>
+        <p class="sangria">Se extiende el presente Certificado de Conformidad de los <span id="certTipo"></span> entregados al establecimiento <span id="certCC"></span>, según Factura(s) N° <span id="certFactura"></span> emitida con fecha <span id="certFechaFact"></span>, por el proveedor <span id="certProveedor"></span>, R.U.T. N° <span id="certRut"></span>, por un monto total de <span id="certMonto"></span>.- (<span id="certMontopalabras"></span>), para que se proceda al pago respectivo.</p>
+        <p>En Galvarino, <span id="certFechaEmision"></span></p><br><br>
+        <span id="certDirector2" class="text-uppercase fw-semibold centro"></span><br>
+        <span id="certCargo2" class="text-uppercase fw-semibold centro"></span><br>
+        <span id="certCC3" class="text-uppercase fw-semibold centro"></span><br><br>
+
+        <p class="pequeño">DISTRIBUCIÓN <br>
+            - La indicada <br>
+         - Archivo <span id="certCC4"></span></p>
+
+
+
+        <button id="ocultar" class="no-print" onclick="imprimirCertificado()">Imprimir Certificado</button>
+    </div>
+
+    <script src="js.js"></script>
+    <script> 
+        function ocultarBoton() { 
+            var button = document.getElementById('ocultar'); 
+            button.classList.add('hidden-print'); 
+            window.print(); 
+        } 
+        document.getElementById('ocultar').addEventListener('click', ocultarBoton); 
+
+function actualizarDirector() { 
+    var cc = document.getElementById("cc"); 
+    var director = document.getElementById("director");
+    var seleccionado = cc.value;
+    
+        if (seleccionado === "Escuela Municipal Aillinco"){
+            director.value = "Marcelo Rosales Grandón";
+        } else if(seleccionado === "Escuela Municipal Chacaico"){
+            director.value = "Luis Lizama Melín";
+        } else if(seleccionado === "Escuela Municipal Fortin Ñielol"){
+            director.value = "Francisco Anabalón";
+        } else if(seleccionado === "Escuela Municipal Gabriela Mistral"){
+            director.value = "Cristian Torres Coñuepán";   
+        } else if(seleccionado ===  "Escuela Municipal El Capricho"){
+            director.value = "Miguel Alarcón Bahamondes";
+        } else if(seleccionado === "Escuela Municipal Huampomallin"){
+            director.value = "Luis Perez Fredes";
+        }else if(seleccionado === "Jardín Junji Amulén"){
+            director.value = "Flavia Toledo Elgueta";
+        }else if(seleccionado === "Jardín Junji Antuliwén"){
+            director.value = "Marianela Saez Figueroa";
+        }else if(seleccionado === "Jardín Junji Rayito de Sol"){
+            director.value = "Yessica Moreno Becerra";
+        }else if(seleccionado === "Escuela Municipal La Piedra"){
+            director.value = "Nibaldo Jara Garrido";
+        }else if(seleccionado === "Liceo Gregorio Urrutia"){
+            director.value = "Nidia Morales";
+        }else if(seleccionado === "Escuela Municipal Llufquentúe"){
+            director.value = "Francisco Prado";
+        }else if(seleccionado === "Escuela Municipal Mañiuco"){
+            director.value = "Aideth Mellado Mellado";
+        }else if(seleccionado === "Escuela Municipal Pangueco"){
+            director.value = "Sergio Gomez Toledo";
+        }else if(seleccionado === "Escuela Municipal Pelantaro"){
+            director.value = "César Escobar Torres";
+        }else if(seleccionado === "Escuela Municipal Quetre"){
+            director.value = "Elizabeth Quintana";
+        }else if(seleccionado === "Escuela Municipal Quinahue"){
+            director.value = "Juan C. Mendez Ruiz";
+        }else if(seleccionado === "Escuela Municipal Rio Quillem"){
+            director.value = "Leonardo Escobar Garabito";
+        }else if(seleccionado === "Escuela Municipal Rucatraro"){
+            director.value = "Patricio Meza";
+        }else if(seleccionado === "Escuela Municipal Santa Margarita"){
+            director.value = "Jenny Pezoa";
+        }else if(seleccionado === "Escuela Municipal Trabunquillem"){
+            director.value = "Patricio Neira";
+        }else if(seleccionado === "Escuela Municipal Trif-trifco"){
+            director.value = "Oriana Robles Jelvez";
+  }
+}
+
+
+
+
+    </script>
+    <script >
+        var numeroALetras = (function() {
+    // Código basado en el comentario de @sapienman
+    // Código basado en https://gist.github.com/alfchee/e563340276f89b22042a
+    function Unidades(num) {
+
+        switch (num) {
+            case 1:
+                return 'UN';
+            case 2:
+                return 'DOS';
+            case 3:
+                return 'TRES';
+            case 4:
+                return 'CUATRO';
+            case 5:
+                return 'CINCO';
+            case 6:
+                return 'SEIS';
+            case 7:
+                return 'SIETE';
+            case 8:
+                return 'OCHO';
+            case 9:
+                return 'NUEVE';
+        }
+
+        return '';
+    } //Unidades()
+
+    function Decenas(num) {
+
+        let decena = Math.floor(num / 10);
+        let unidad = num - (decena * 10);
+
+        switch (decena) {
+            case 1:
+                switch (unidad) {
+                    case 0:
+                        return 'DIEZ';
+                    case 1:
+                        return 'ONCE';
+                    case 2:
+                        return 'DOCE';
+                    case 3:
+                        return 'TRECE';
+                    case 4:
+                        return 'CATORCE';
+                    case 5:
+                        return 'QUINCE';
+                    default:
+                        return 'DIECI' + Unidades(unidad);
+                }
+            case 2:
+                switch (unidad) {
+                    case 0:
+                        return 'VEINTE';
+                    default:
+                        return 'VEINTI' + Unidades(unidad);
+                }
+            case 3:
+                return DecenasY('TREINTA', unidad);
+            case 4:
+                return DecenasY('CUARENTA', unidad);
+            case 5:
+                return DecenasY('CINCUENTA', unidad);
+            case 6:
+                return DecenasY('SESENTA', unidad);
+            case 7:
+                return DecenasY('SETENTA', unidad);
+            case 8:
+                return DecenasY('OCHENTA', unidad);
+            case 9:
+                return DecenasY('NOVENTA', unidad);
+            case 0:
+                return Unidades(unidad);
+        }
+    } //Unidades()
+
+    function DecenasY(strSin, numUnidades) {
+        if (numUnidades > 0)
+            return strSin + ' Y ' + Unidades(numUnidades)
+
+        return strSin;
+    } //DecenasY()
+
+    function Centenas(num) {
+        let centenas = Math.floor(num / 100);
+        let decenas = num - (centenas * 100);
+
+        switch (centenas) {
+            case 1:
+                if (decenas > 0)
+                    return 'CIENTO ' + Decenas(decenas);
+                return 'CIEN';
+            case 2:
+                return 'DOSCIENTOS ' + Decenas(decenas);
+            case 3:
+                return 'TRESCIENTOS ' + Decenas(decenas);
+            case 4:
+                return 'CUATROCIENTOS ' + Decenas(decenas);
+            case 5:
+                return 'QUINIENTOS ' + Decenas(decenas);
+            case 6:
+                return 'SEISCIENTOS ' + Decenas(decenas);
+            case 7:
+                return 'SETECIENTOS ' + Decenas(decenas);
+            case 8:
+                return 'OCHOCIENTOS ' + Decenas(decenas);
+            case 9:
+                return 'NOVECIENTOS ' + Decenas(decenas);
+        }
+
+        return Decenas(decenas);
+    } //Centenas()
+
+    function Seccion(num, divisor, strSingular, strPlural) {
+        let cientos = Math.floor(num / divisor)
+        let resto = num - (cientos * divisor)
+
+        let letras = '';
+
+        if (cientos > 0)
+            if (cientos > 1)
+                letras = Centenas(cientos) + ' ' + strPlural;
+            else
+                letras = strSingular;
+
+        if (resto > 0)
+            letras += '';
+
+        return letras;
+    } //Seccion()
+
+    function Miles(num) {
+        let divisor = 1000;
+        let cientos = Math.floor(num / divisor)
+        let resto = num - (cientos * divisor)
+
+        let strMiles = Seccion(num, divisor, 'UN MIL', 'MIL');
+        let strCentenas = Centenas(resto);
+
+        if (strMiles == '')
+            return strCentenas;
+
+        return strMiles + ' ' + strCentenas;
+    } //Miles()
+
+    function Millones(num) {
+        let divisor = 1000000;
+        let cientos = Math.floor(num / divisor)
+        let resto = num - (cientos * divisor)
+
+        let strMillones = Seccion(num, divisor, 'UN MILLON DE', 'MILLONES DE');
+        let strMiles = Miles(resto);
+
+        if (strMillones == '')
+            return strMiles;
+
+        return strMillones + ' ' + strMiles;
+    } //Millones()
+
+    return function NumeroALetras(num, currency) {
+        currency = currency || {};
+        let data = {
+            numero: num,
+            enteros: Math.floor(num),
+            centavos: (((Math.round(num * 100)) - (Math.floor(num) * 100))),
+            letrasCentavos: '',
+            letrasMonedaPlural: currency.plural || 'PESOS', //'PESOS', 'Dólares', 'Bolívares', 'etcs'
+            letrasMonedaSingular: currency.singular || 'PESO', //'PESO', 'Dólar', 'Bolivar', 'etc'
+            letrasMonedaCentavoPlural: currency.centPlural || 'CHIQUI PESOS CHILENOS',
+            letrasMonedaCentavoSingular: currency.centSingular || 'CHIQUI PESO CHILENO'
+        };
+
+        if (data.centavos > 0) {
+            data.letrasCentavos = 'CON ' + (function() {
+                if (data.centavos == 1)
+                    return Millones(data.centavos) + ' ' + data.letrasMonedaCentavoSingular;
+                else
+                    return Millones(data.centavos) + ' ' + data.letrasMonedaCentavoPlural;
+            })();
+        };
+
+        if (data.enteros == 0)
+            return 'CERO ' + data.letrasMonedaPlural + ' ' + data.letrasCentavos;
+        if (data.enteros == 1)
+            return Millones(data.enteros) + ' ' + data.letrasMonedaSingular + ' ' + data.letrasCentavos;
+        else
+            return Millones(data.enteros) + ' ' + data.letrasMonedaPlural + ' ' + data.letrasCentavos;
+    };
+
+})();
+    </script>
+</body>
+</html>
